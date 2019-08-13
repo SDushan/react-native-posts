@@ -1,23 +1,23 @@
 {
-  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
-    "eject": "expo eject"
+    "start": "react-native start",
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "web": "expo start --web"
   },
   "dependencies": {
     "expo": "^34.0.1",
     "react": "16.8.3",
     "react-dom": "^16.8.6",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-34.0.0.tar.gz",
+    "react-native-web": "^0.11.4",
+    "react-native": "0.59.8",
     "react-native-gesture-handler": "^1.3.0",
+    "react-native-reanimated": "~1.1.0",
+    "react-native-unimodules": "~0.5.2",
     "react-native-grid-component": "^2.0.0",
     "react-native-image-zoom-viewer": "^2.2.26",
     "react-native-modal": "^11.3.1",
     "react-native-safe-modules": "^1.0.0",
-    "react-native-web": "^0.11.4",
     "react-navigation": "^3.11.1",
     "react-redux": "^7.1.0",
     "redux": "^4.0.4",
