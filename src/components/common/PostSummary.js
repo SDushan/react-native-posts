@@ -1,7 +1,7 @@
 import React from "react";
-import { Text, View, TouchableOpacity } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { Text, View, Image, TouchableOpacity } from "react-native";
 import Card from "./Card";
+import { assets } from "../../../assets/config";
 
 export default class PostSummary extends React.PureComponent {
   onSelected = () => {
@@ -14,7 +14,8 @@ export default class PostSummary extends React.PureComponent {
       textContainer,
       headerTextStyle,
       bodyTextStyle,
-      iconContainer
+      iconContainer,
+      iconStyle
     } = styles;
 
     return (
@@ -25,7 +26,7 @@ export default class PostSummary extends React.PureComponent {
             <Text style={bodyTextStyle}>{this.props.userName}</Text>
           </View>
           <View style={iconContainer}>
-            <Ionicons name="md-arrow-dropright" size={25} />
+            <Image source={assets.arrowRight} style={iconStyle} />
           </View>
         </TouchableOpacity>
       </Card>
@@ -60,5 +61,9 @@ const styles = {
     width: "10%",
     alignItems: "center",
     justifyContent: "center"
+  },
+  iconStyle: {
+    width: 18,
+    height: 18
   }
 };

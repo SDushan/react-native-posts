@@ -3,13 +3,13 @@ import { connect } from "react-redux";
 import {
   Text,
   View,
+  Image,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
   Linking,
   Dimensions
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import Grid from "react-native-grid-component";
 import Spinner from "./common/Spinner";
 import Card from "./common/Card";
@@ -17,6 +17,7 @@ import CardSection from "./common/CardSection";
 import GridImage from "./common/GridImage";
 import ImagePreviewer from "./common/ImagePreviewer";
 import { fetchPhotos } from "../actions";
+import { assets } from '../../assets/config';
 
 const ScreenWidth = Dimensions.get("window").width;
 
@@ -80,7 +81,8 @@ class PostDetail extends React.Component {
       iconContainer,
       subContainerStyle,
       textStyle,
-      imagesContainer
+      imagesContainer,
+      iconStyle
     } = styles;
     return (
       <ScrollView style={containerStyle}>
@@ -97,11 +99,11 @@ class PostDetail extends React.Component {
                 <Text style={headerTitle}>Post By</Text>
                 <Text style={subHeaderTitle}>{this.state.user.name}</Text>
                 <View style={iconContainer}>
-                  <Ionicons name="md-mail" size={14} />
+                  <Image source={assets.mail} style={iconStyle} />
                   <Text style={subHeaderTitle}>{this.state.user.email}</Text>
                 </View>
                 <View style={iconContainer}>
-                  <Ionicons name="ios-call" size={14} />
+                  <Image source={assets.call} style={iconStyle} />
                   <Text style={subHeaderTitle}>{this.state.user.phone}</Text>
                 </View>
                 <TouchableOpacity onPress={this.linkingUrl}>
@@ -222,6 +224,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center"
+  },
+  iconStyle: {
+    width: 14,
+    height: 14
   }
 });
 
