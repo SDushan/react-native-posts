@@ -2,7 +2,7 @@ import {
   FETCH_POSTS,
   FETCH_POSTS_SUCCESS,
   FETCH_POSTS_FAILED
-} from "../actions/types";
+} from "../actions";
 
 const initialState = {
   isFetchingPosts: false,

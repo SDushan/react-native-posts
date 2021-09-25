@@ -1,12 +1,12 @@
 import { combineReducers } from "redux";
-import PostReducer from "./PostReducer";
-import UserReducer from "./UserReducer";
-import PhotoReducer from "./PhotoReducer";
+import PhotoReducer from "./photoReducer";
+import PostReducer from "./postReducer";
+import UserReducer from "./userReducer";
 
-const allReducers = combineReducers({
+const Reducers = combineReducers({
   PostReducer,
   UserReducer,
   PhotoReducer
 });
 
-export default allReducers;
+export default Reducers;

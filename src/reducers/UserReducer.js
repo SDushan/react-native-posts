@@ -2,7 +2,7 @@ import {
   FETCH_USERS,
   FETCH_USERS_SUCCESS,
   FETCH_USERS_FAILED
-} from "../actions/types";
+} from "../actions";
 
 const initialState = {
   isFetchingUsers: false,

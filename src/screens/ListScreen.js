@@ -1,16 +1,17 @@
 import React from "react";
 import { connect } from "react-redux";
 import { View, Text, FlatList, StyleSheet, Dimensions } from "react-native";
-import PostSummary from "./common/PostSummary";
-import Spinner from "./common/Spinner";
+
+import Spinner from "../components/Spinner";
+import PostSummary from "../collections/PostSummary";
 import { fetchPosts, fetchUsers } from "../actions";
 
 const ScreenWidth = Dimensions.get("window").width;
 
-class PostList extends React.Component {
-  static navigationOptions = {
-    title: "Post List"
-  };
+class ListScreen extends React.Component {
+  // static navigationOptions = {
+  //   title: "List of Post",
+  // };
 
   componentDidMount() {
     this.props.onFetchPosts();
@@ -22,9 +23,9 @@ class PostList extends React.Component {
   };
 
   renderPosts = () => {
-    return this.props.postData.posts.map(post => {
+    return this.props.postData.posts.map((post) => {
       let selectedUser = this.props.userData.users.find(
-        user => user.id == post.userId
+        (user) => user.id == post.userId
       );
       return (
         <PostSummary
@@ -44,24 +45,20 @@ class PostList extends React.Component {
 
   render() {
     const { containerStyle, subContainerStyle, textStyle } = styles;
+    const { postData, userData } = this.props;
 
     return (
       <View style={containerStyle}>
-        {this.props.postData.posts.length > 0 &&
-        this.props.userData.users.length > 0 ? (
+        {postData.posts.length > 0 && userData.users.length > 0 ? (
           <FlatList
-            data={this.props.postData.posts}
+            data={postData.posts}
             renderItem={this.renderPosts}
-            keyExtractor={item => String(item.id)}
+            keyExtractor={(item) => String(item.id)}
             initialNumToRender={3}
-            refreshing={
-              this.props.userData.isFetchingUsers ||
-              this.props.postData.isFetchingPosts
-            }
+            refreshing={userData.isFetchingUsers || postData.isFetchingPosts}
             onRefresh={this.handleRefresh}
           />
-        ) : this.props.postData.isErrorFetchingPosts ||
-          this.props.userData.isErrorFetchingUsers ? (
+        ) : postData.isErrorFetchingPosts || userData.isErrorFetchingUsers ? (
           <View style={subContainerStyle}>
             <Text style={textStyle}>Error while loading... 😢</Text>
           </View>
@@ -78,38 +75,33 @@ class PostList extends React.Component {
 
 const styles = StyleSheet.create({
   containerStyle: {
-    flex: 1
+    flex: 1,
   },
   subContainerStyle: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   textStyle: {
     padding: 20,
-    fontSize: 18
-  }
+    fontSize: 18,
+  },
 });
 
-const mapStateToProps = state => {
-  return {
-    postData: state.PostReducer,
-    userData: state.UserReducer
-  };
-};
+const mapStateToProps = (state) => ({
+  postData: state.PostReducer,
+  userData: state.UserReducer,
+})
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     onFetchPosts: () => {
       dispatch(fetchPosts());
     },
     onFetchUsers: () => {
       dispatch(fetchUsers());
-    }
+    },
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PostList);
+export default connect(mapStateToProps, mapDispatchToProps)(ListScreen);

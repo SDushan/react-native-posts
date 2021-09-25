@@ -2,14 +2,14 @@ import {
   FETCH_USERS,
   FETCH_USERS_SUCCESS,
   FETCH_USERS_FAILED
-} from "../actions/types";
-import { put, takeLatest } from "redux-saga/effects";
-import { Api } from "./api";
+} from "../actions";
+import { put, call, takeLatest } from "redux-saga/effects";
+import { getUsersfromApi } from "../services/userServices";
 
 export function* fetchUsers() {
   try {
-    let receivedUsers = yield Api.getUsersfromApi();
-    yield put({ type: FETCH_USERS_SUCCESS, receivedUsers: receivedUsers });
+    const receivedUsers = yield call(getUsersfromApi);
+    yield put({ type: FETCH_USERS_SUCCESS, receivedUsers: receivedUsers.data });
   } catch (error) {
     yield put({ type: FETCH_USERS_FAILED, error });
   }

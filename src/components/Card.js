@@ -1,9 +1,10 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
+import PropTypes from "prop-types";
 
-const Card = props => {
-  return <View style={styles.containerStyle}>{props.children}</View>;
-};
+const Card = React.memo(({ children }) => (
+  <View style={styles.containerStyle}>{children}</View>
+));
 
 const styles = StyleSheet.create({
   containerStyle: {
@@ -18,8 +19,15 @@ const styles = StyleSheet.create({
     elevation: 1,
     marginLeft: 5,
     marginRight: 5,
-    marginTop: 10
-  }
+    marginTop: 10,
+  },
 });
+
+Card.prototype = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.element),
+    PropTypes.element,
+  ]).isRequired,
+};
 
 export default Card;
