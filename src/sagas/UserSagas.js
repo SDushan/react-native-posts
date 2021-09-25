@@ -1,4 +1,3 @@
-import { AsyncStorage } from "react-native";
 import {
   FETCH_USERS,
   FETCH_USERS_SUCCESS,
@@ -9,14 +8,7 @@ import { Api } from "./api";
 
 export function* fetchUsers() {
   try {
-    let receivedUsers;
-    let userListStorage = yield AsyncStorage.getItem("UserList");
-    if (!!userListStorage == false) {
-      receivedUsers = yield Api.getUsersfromApi();
-      AsyncStorage.setItem("UserList", JSON.stringify(receivedUsers));
-    } else {
-      receivedUsers = JSON.parse(userListStorage);
-    }
+    let receivedUsers = yield Api.getUsersfromApi();
     yield put({ type: FETCH_USERS_SUCCESS, receivedUsers: receivedUsers });
   } catch (error) {
     yield put({ type: FETCH_USERS_FAILED, error });

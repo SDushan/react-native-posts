@@ -1,4 +1,3 @@
-import { AsyncStorage } from "react-native";
 import {
   FETCH_POSTS,
   FETCH_POSTS_SUCCESS,
@@ -9,14 +8,7 @@ import { Api } from "./api";
 
 export function* fetchPosts() {
   try {
-    let receivedPosts;
-    let postListStorage = yield AsyncStorage.getItem("PostList");
-    if (!!postListStorage == false) {
-      receivedPosts = yield Api.getPostsfromApi();
-      yield AsyncStorage.setItem("PostList", JSON.stringify(receivedPosts));
-    } else {
-      receivedPosts = JSON.parse(postListStorage);
-    }
+    let receivedPosts = yield Api.getPostsfromApi();
     yield put({ type: FETCH_POSTS_SUCCESS, receivedPosts: receivedPosts });
   } catch (error) {
     yield put({ type: FETCH_POSTS_FAILED, error });
