@@ -18,7 +18,7 @@ class PostList extends React.Component {
   }
 
   selectItem = post => {
-    this.props.navigation.navigate("PostDetail", { postDetails: post });
+    this.props.navigation.navigate("Details", { postDetails: post });
   };
 
   renderPosts = () => {

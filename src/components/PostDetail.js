@@ -32,14 +32,14 @@ class PostDetail extends React.Component {
   };
 
   componentDidMount() {
-    let userId = this.props.navigation.state.params.postDetails.userId;
-    this.props.onFetchPhotos();
-    let selectedUser = this.props.userData.users.find(
-      user => user.id == userId
+    const { route, onFetchPhotos, userData } = this.props;
+    onFetchPhotos();
+    let selectedUser = userData.users.find(
+      (user) => user.id == route.params.postDetails.userId
     );
     this.setState({
-      post: this.props.navigation.state.params.postDetails,
-      user: selectedUser
+      post: route.params.postDetails,
+      user: selectedUser,
     });
   }
 
