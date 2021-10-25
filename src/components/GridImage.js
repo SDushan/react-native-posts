@@ -7,12 +7,12 @@ const ScreenWidth = Dimensions.get("window").width;
 const GridImage = React.memo(({ column, originalImage, thumbnailImage, onSelected }) => {
   const width = (ScreenWidth - 40) / column - 10;
 
-  onSelected = () => {
+  onHandleSelected = () => {
     onSelected(originalImage);
   };
 
   return (
-    <TouchableOpacity style={styles.containerStyle} onPress={onSelected}>
+    <TouchableOpacity style={styles.containerStyle} onPress={this.onHandleSelected}>
       <Image
         source={{ uri: thumbnailImage }}
         style={{ width: width, height: width }}

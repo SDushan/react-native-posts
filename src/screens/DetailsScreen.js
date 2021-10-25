@@ -4,13 +4,14 @@ import {
   Text,
   View,
   Image,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
   Linking,
+  FlatList,
+  StatusBar,
   Dimensions,
+  StyleSheet,
+  SafeAreaView,
+  TouchableOpacity
 } from "react-native";
-import Grid from "react-native-grid-component";
 
 import Spinner from "../components/Spinner";
 import Card from "../components/Card";
@@ -63,91 +64,95 @@ class DetailsScreen extends React.Component {
     Linking.openURL(`https://${this.state.user.website}`);
   };
 
-  renderItem = ({ id, url, thumbnailUrl }) => (
+  renderHeader = () => {
+    const { user, post } = this.state;
+    const {
+      headerContentStyle,
+      title,
+      headerTitle,
+      subHeaderTitle,
+      iconContainer,
+      iconStyle
+    } = styles;
+
+    return (
+      <>
+        <CardSection>
+          <View style={headerContentStyle}>
+            <Text style={title}>{post.title}</Text>
+            <Text style={subHeaderTitle}>{post.body}</Text>
+          </View>
+        </CardSection>
+        <CardSection>
+          <View style={headerContentStyle}>
+            <Text style={headerTitle}>Post By</Text>
+            <Text style={subHeaderTitle}>{user.name}</Text>
+            <View style={iconContainer}>
+              <Image source={assets.mail} style={iconStyle} />
+              <Text style={subHeaderTitle}>{user.email}</Text>
+            </View>
+            <View style={iconContainer}>
+              <Image source={assets.call} style={iconStyle} />
+              <Text style={subHeaderTitle}>{user.phone}</Text>
+            </View>
+            <TouchableOpacity onPress={this.linkingUrl}>
+              <Text style={subHeaderTitle}>{user.website}</Text>
+            </TouchableOpacity>
+            <Text style={headerTitle}>Address</Text>
+            <Text style={subHeaderTitle}>{user.address.suite + ","}</Text>
+            <Text style={subHeaderTitle}>{user.address.street + ","}</Text>
+            <Text style={subHeaderTitle}>{user.address.city + "."}</Text>
+            <Text style={subHeaderTitle}>
+              {"Zip Code: " + user.address.zipcode}
+            </Text>
+            <Text style={subHeaderTitle}>
+              {"Latitude: " + user.address.geo.lat}
+            </Text>
+            <Text style={subHeaderTitle}>
+              {"Longitude: " + user.address.geo.lng}
+            </Text>
+            <Text style={headerTitle}>Company Details</Text>
+            <Text style={subHeaderTitle}>{user.company.name}</Text>
+            <Text
+              style={subHeaderTitle}
+            >{`"${user.company.catchPhrase}"`}</Text>
+            <Text style={subHeaderTitle}>
+              {"Business studies on: " + user.company.bs}
+            </Text>
+          </View>
+        </CardSection>
+      </>
+    )
+  }
+
+  renderItem = ({ item }) => (
     <GridImage
-      key={id}
-      originalImage={url}
-      thumbnailImage={thumbnailUrl}
+      key={item.id}
+      originalImage={item.url}
+      thumbnailImage={item.thumbnailUrl}
       column={3}
       onSelected={this.selectItem}
     />
   );
 
   render() {
-    const { user, post, isImagePreview, selectedImageUrl } = this.state;
+    const { user, isImagePreview, selectedImageUrl } = this.state;
     const { isErrorFetchingPhotos, photos } = this.props.photoData;
-    const {
-      containerStyle,
-      headerContentStyle,
-      title,
-      headerTitle,
-      subHeaderTitle,
-      iconContainer,
-      subContainerStyle,
-      textStyle,
-      imagesContainer,
-      iconStyle
-    } = styles;
+    const { containerStyle, subContainerStyle, textStyle, imagesContainer } = styles;
+
     return (
-      <ScrollView style={containerStyle}>
+      <SafeAreaView style={containerStyle}>
         {user.company && !isImagePreview && (
           <Card>
             <CardSection>
-              <View style={headerContentStyle}>
-                <Text style={title}>{post.title}</Text>
-                <Text style={subHeaderTitle}>{post.body}</Text>
-              </View>
-            </CardSection>
-            <CardSection>
-              <View style={headerContentStyle}>
-                <Text style={headerTitle}>Post By</Text>
-                <Text style={subHeaderTitle}>{user.name}</Text>
-                <View style={iconContainer}>
-                  <Image source={assets.mail} style={iconStyle} />
-                  <Text style={subHeaderTitle}>{user.email}</Text>
-                </View>
-                <View style={iconContainer}>
-                  <Image source={assets.call} style={iconStyle} />
-                  <Text style={subHeaderTitle}>{user.phone}</Text>
-                </View>
-                <TouchableOpacity onPress={this.linkingUrl}>
-                  <Text style={subHeaderTitle}>{user.website}</Text>
-                </TouchableOpacity>
-
-                <Text style={headerTitle}>Address</Text>
-                <Text style={subHeaderTitle}>{user.address.suite + ","}</Text>
-                <Text style={subHeaderTitle}>{user.address.street + ","}</Text>
-                <Text style={subHeaderTitle}>{user.address.city + "."}</Text>
-                <Text style={subHeaderTitle}>
-                  {"Zip Code: " + user.address.zipcode}
-                </Text>
-                <Text style={subHeaderTitle}>
-                  {"Latitude: " + user.address.geo.lat}
-                </Text>
-                <Text style={subHeaderTitle}>
-                  {"Longitude: " + user.address.geo.lng}
-                </Text>
-
-                <Text style={headerTitle}>Company Details</Text>
-                <Text style={subHeaderTitle}>{user.company.name}</Text>
-                <Text
-                  style={subHeaderTitle}
-                >{`"${user.company.catchPhrase}"`}</Text>
-                <Text style={subHeaderTitle}>
-                  {"Business studies on: " + user.company.bs}
-                </Text>
-              </View>
-            </CardSection>
-
-            <CardSection>
               <View style={imagesContainer}>
                 {photos.length > 0 ? (
-                  <Grid
-                    style={{ flex: 1 }}
+                  <FlatList
                     renderItem={this.renderItem}
                     data={photos}
                     numColumns={3}
                     keyExtractor={(item) => String(item.id)}
+                    ListHeaderComponent={this.renderHeader}
                   />
                 ) : isErrorFetchingPhotos ? (
                   <View style={subContainerStyle}>
@@ -168,7 +173,7 @@ class DetailsScreen extends React.Component {
           onCancel={this.onCancelPreviwer}
           currentImage={selectedImageUrl}
         />
-      </ScrollView>
+      </SafeAreaView>
     );
   }
 }
@@ -177,6 +182,7 @@ const styles = StyleSheet.create({
   containerStyle: {
     flex: 1,
     flexDirection: "column",
+    marginTop: StatusBar.currentHeight || 0,
   },
   headerContentStyle: {
     flex: 1,
