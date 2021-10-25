@@ -10,7 +10,19 @@ const Stack = createNativeStackNavigator();
 const MainStack = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Posts">
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: '#6b85de',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: "bold"
+          },
+          headerTitleAlign: 'center',
+          headerBackTitleVisible: false
+        }}
+      >
         <Stack.Screen name="Posts" component={ListScreen} />
         <Stack.Screen name="Details" component={DetailsScreen} />
       </Stack.Navigator>

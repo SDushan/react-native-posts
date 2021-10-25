@@ -9,9 +9,6 @@ import { fetchPosts, fetchUsers } from "../actions";
 const ScreenWidth = Dimensions.get("window").width;
 
 class ListScreen extends React.Component {
-  // static navigationOptions = {
-  //   title: "List of Post",
-  // };
 
   componentDidMount() {
     this.props.onFetchPosts();

@@ -31,10 +31,6 @@ class DetailsScreen extends React.Component {
     selectedImageUrl: "",
   };
 
-  // static navigationOptions = {
-  //   title: "Details",
-  // };
-
   componentDidMount() {
     const { route, onFetchPhotos, userData } = this.props;
     onFetchPhotos();
